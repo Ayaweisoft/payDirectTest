@@ -11,7 +11,6 @@ const singleUrl= (req, res) => {
     var custReference = (req.body.CustomerInformationRequest.CustReference) ? req.body.CustomerInformationRequest.CustReference : '';
     var paymentItemCode = (req.body.CustomerInformationRequest.PaymentItemCode) ? req.body.CustomerInformationRequest.PaymentItemCode : '';
     var thirdPartyCode = (req.body.CustomerInformationRequest.ThirdPartyCode) ? req.body.CustomerInformationRequest.ThirdPartyCode : '';
-    var id = req.body.CustomerInformationRequest.ThirdPartyCode[0].Id[0];
     // console.log(thirdPartyCode[0].Id[0]);
     
     
@@ -26,7 +25,7 @@ const singleUrl= (req, res) => {
                 <LastName></LastName>
                 <Email></Email>
                 <Phone></Phone>
-                <ThirdPartyCode>${id}</ThirdPartyCode>
+                <ThirdPartyCode>${thirdPartyCode}</ThirdPartyCode>
                 <Amount>0.00</Amount>
             </Customer>
         </Customers>
