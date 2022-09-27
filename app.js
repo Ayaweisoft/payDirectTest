@@ -14,7 +14,7 @@ app.set("view engine", "ejs");
 // app.use(bodyParser.json());
 // app.use(express.urlencoded({ extended: true }));
 
-//Express XML body parser
+// Express XML body parser
 app.use(xmlparser({
     normalizeTags: false
 }));
@@ -30,4 +30,8 @@ app.use("/", require("./routes/index.js"));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+app.listen(PORT, async () => {
+    //Initialize MongoDB
+    await require("./config/mongo-db.config")()
+    console.log(`:::> Server listening on port ${PORT} @ http://localhost:${PORT}`);
+});

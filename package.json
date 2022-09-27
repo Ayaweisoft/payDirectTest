@@ -16,15 +16,16 @@
     "express-rate-limit": "^5.1.3",
     "express-session": "^1.17.1",
     "express-xml-bodyparser": "^0.3.0",
+    "mongoose": "^6.6.2",
     "node-pre-gyp": "^0.15.0",
     "nodemon": "^2.0.4",
     "xml": "^1.0.1"
   },
   "scripts": {
-    "start": "nodemon app.js",
-    "dev": "nodemon app.js",
+    "start": "node -r dotenv/config app.js",
+    "dev": "nodemon -r dotenv/config app.js dotenv_config_path=./.env.dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Prince Gbalam",
+  "author": "Codes Oracle",
   "license": "ISC"
 }

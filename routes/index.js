@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const customerValidation = require("../controllers/customerValidation");
-const paymentNotification = require("../controllers/paymentNotification");
+const addCustomer = require("../controllers/addCustomer");
 const singleUrl = require("../controllers/singleUrl");
 
 //test
-router.post("/customerValidation", customerValidation);
-router.post("/paymentNotification", paymentNotification);
+router.post("/addCustomer", addCustomer);
 
 //single url
 router.post("/singleUrl", singleUrl);

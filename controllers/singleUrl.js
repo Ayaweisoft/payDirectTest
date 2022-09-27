@@ -1,38 +1,64 @@
 const xml = require('xml');
+const Customers = require('../models/customer.model');
 
-const singleUrl= (req, res) => {
+const singleUrl = async (req, res) => {
   console.log('Raw XML: ' + req.rawBody);
   console.log('Parsed XML: ' + JSON.stringify(req.body));
 
   if(req.body.CustomerInformationRequest){
-    var serviceUsername = (req.body.CustomerInformationRequest.ServiceUsername) ? req.body.CustomerInformationRequest.ServiceUsername : '';
-    var servicePassword = (req.body.CustomerInformationRequest.ServicePassword) ? req.body.CustomerInformationRequest.ServicePassword : '';
     var merchantReference = (req.body.CustomerInformationRequest.MerchantReference) ? req.body.CustomerInformationRequest.MerchantReference : '';
     var custReference = (req.body.CustomerInformationRequest.CustReference) ? req.body.CustomerInformationRequest.CustReference : '';
     var paymentItemCode = (req.body.CustomerInformationRequest.PaymentItemCode) ? req.body.CustomerInformationRequest.PaymentItemCode : '';
     var thirdPartyCode = (req.body.CustomerInformationRequest.ThirdPartyCode) ? req.body.CustomerInformationRequest.ThirdPartyCode : '';
     // console.log(thirdPartyCode[0].Id[0]);
     
-    
-    var responseXml = `<CustomerInformationResponse>
-        <MerchantReference>${merchantReference}</MerchantReference>
-        <Customers>
-            <Customer>
-                <Status>0</Status>
-                <CustReference>${custReference}</CustReference>
-                <CustomerReferenceAlternate></CustomerReferenceAlternate>
-                <FirstName>test test</FirstName>
-                <LastName></LastName>
-                <Email></Email>
-                <Phone></Phone>
-                <ThirdPartyCode>${thirdPartyCode}</ThirdPartyCode>
-                <Amount>0.00</Amount>
-            </Customer>
-        </Customers>
-    </CustomerInformationResponse>`;
+    try{
+      const customer = await Customers.findOne({ customerReference: custReference });
+      if(customer){
+        var responseXml = `<CustomerInformationResponse>
+          <MerchantReference>${merchantReference}</MerchantReference>
+          <Customers>
+              <Customer>
+                  <Status>0</Status>
+                  <StatusMessage>Success</StatusMessage>
+                  <CustReference>${customer.customerReference}</CustReference>
+                  <CustomerReferenceAlternate></CustomerReferenceAlternate>
+                  <FirstName>${customer.firstName}</FirstName>
+                  <LastName>${customer.lastName}</LastName>
+                  <Email>${customer.email}</Email>
+                  <Phone>${customer.phone}</Phone>
+                  <ThirdPartyCode>${thirdPartyCode}</ThirdPartyCode>
+                  <Amount>0.00</Amount>
+              </Customer>
+          </Customers>
+        </CustomerInformationResponse>`;
+      } else {
+        var responseXml = `<CustomerInformationResponse>
+          <MerchantReference>${merchantReference}</MerchantReference>
+          <Customers>
+              <Customer>
+                  <Status>1</Status>
+                  <StatusMessage>Customer not found</StatusMessage>
+                  <CustReference>${custReference}</CustReference>
+                  <CustomerReferenceAlternate></CustomerReferenceAlternate>
+                  <FirstName></FirstName>
+                  <LastName></LastName>
+                  <Email></Email>
+                  <Phone></Phone>
+                  <ThirdPartyCode>${thirdPartyCode}</ThirdPartyCode>
+                  <Amount>0.00</Amount>
+              </Customer>
+          </Customers>
+        </CustomerInformationResponse>`;
+      }
 
-    res.header('Content-Type', 'text/xml');
-    res.send(responseXml);
+      res.header('Content-Type', 'text/xml');
+      res.send(responseXml);
+    } catch(err){
+      console.log(err);
+    }
+    
+   
   } else if(req.body.PaymentNotificationRequest){
     var serviceUrl = (req.body.PaymentNotificationRequest.ServiceUrl) ? req.body.PaymentNotificationRequest.ServiceUrl : '';
     var serviceUsername = (req.body.PaymentNotificationRequest.ServiceUsername) ? req.body.PaymentNotificationRequest.ServiceUsername : '';
