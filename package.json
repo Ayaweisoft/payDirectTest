@@ -19,7 +19,8 @@
     "mongoose": "^6.6.2",
     "node-pre-gyp": "^0.15.0",
     "nodemon": "^2.0.4",
-    "xml": "^1.0.1"
+    "xml": "^1.0.1",
+    "xml2js": "^0.4.23"
   },
   "scripts": {
     "start": "node -r dotenv/config app.js",
