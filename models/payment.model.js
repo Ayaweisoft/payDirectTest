@@ -7,44 +7,34 @@ const paymentSchema = new Schema(
       type: String,
       trim: true,
     },
-    customerReferenceAlternate: {
+    originalPaymentLogId: {
+      type: String,
+      trim: true,
+    },
+    originalPaymentReference: {
+      type: String,
+      trim: true,
+    },
+    amount: {
+      type: String,
+      trim: true,
+    },
+    paymentReference: {
+      type: String,
+      trim: true,
+    },
+    receiptNumber: {
+      type: String,
+      trim: true, 
+    },
+    customerReference: {
         type: String,
         trim: true
-    },
-    customerReferenceAlternate: {
-      type: String,
-      trim: true
     },
     isReversal: {
       type: String,
       trim: true,
-      required: [true, "First Name is required"],
     },
-    lastName: {
-      type: String,
-      trim: true,
-      required: [true, "Last Name is required"],
-    },
-    otherName: {
-      type: String,
-      trim: true
-    },
-    email: {
-      type: String,
-      trim: true,
-      unique: true,
-      required: [true, "Email is required"],
-    },
-    phone: {
-      type: String,
-      trim: true,
-      required: [true, "Phone Number is required"],
-    },
-    thirdPartyCode: {
-      type: String,
-      trim: true
-    }
-
   },
   {
     timestamps: true,
