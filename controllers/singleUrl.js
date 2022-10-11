@@ -154,6 +154,34 @@ const singleUrl = async (req, res) => {
     var originalPaymentLogId = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentLogId[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentLogId[0] : '';
     var originalPaymentReference = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentReference[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentReference[0] : '';
 
+    const customer = await Payment.findOne({ customerReference: customerReference });
+    if(!customer){
+      var responseXml = `<PaymentNotificationResponse>
+        <Payments>  
+          <Payment>
+              <PaymentLogId>${paymentLogId}</PaymentLogId>
+              <Status>1</Status>
+          </Payment>
+        </Payments>
+      </PaymentNotificationResponse>`;
+      res.header('Content-Type', 'text/xml');
+      return res.send(responseXml);
+    }
+
+    console.log("amount: ", Number(amount));
+    if(Number(amount) <= 0){     
+      var responseXml = `<PaymentNotificationResponse>
+        <Payments>  
+          <Payment>
+              <PaymentLogId>${paymentLogId}</PaymentLogId>
+              <Status>1</Status>
+          </Payment>
+        </Payments>
+      </PaymentNotificationResponse>`;
+      res.header('Content-Type', 'text/xml');
+      return res.send(responseXml);
+    }
+
     const payment = await Payment.findOne({ paymentLogId: paymentLogId });
     if(payment){
       var responseXml = `<PaymentNotificationResponse>
@@ -167,7 +195,7 @@ const singleUrl = async (req, res) => {
       res.header('Content-Type', 'text/xml');
       return res.send(responseXml);
     }
-
+  
     if(isReversal.toString() == 'True' || isReversal.toString() == 'true'){
       if(Number(amount) > 0){
         console.log("wrong ammount")
