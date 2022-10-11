@@ -154,7 +154,7 @@ const singleUrl = async (req, res) => {
     var originalPaymentLogId = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentLogId[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentLogId[0] : '';
     var originalPaymentReference = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentReference[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentReference[0] : '';
 
-    const customer = await Payment.findOne({ customerReference: customerReference });
+    const customer = await Customers.findOne({ customerReference: customerReference });
     if(!customer){
       var responseXml = `<PaymentNotificationResponse>
         <Payments>  
@@ -197,20 +197,6 @@ const singleUrl = async (req, res) => {
     }
   
     if(isReversal.toString() == 'True' || isReversal.toString() == 'true'){
-      if(Number(amount) > 0){
-        console.log("wrong ammount")
-        var responseXml = `<PaymentNotificationResponse>
-          <Payments>  
-            <Payment>
-                <PaymentLogId>${paymentLogId}</PaymentLogId>
-                <Status>1</Status>
-            </Payment>
-          </Payments>
-        </PaymentNotificationResponse>`;
-        res.header('Content-Type', 'text/xml');
-        return res.send(responseXml);
-      }
-      
       try{
         var data_object = {
           paymentLogId: paymentLogId.toString(),
