@@ -168,35 +168,21 @@ const singleUrl = async (req, res) => {
       return res.send(responseXml);
     }
 
-    console.log("amount: ", Number(amount));
-    if(Number(amount) <= 0){     
-      var responseXml = `<PaymentNotificationResponse>
-        <Payments>  
-          <Payment>
-              <PaymentLogId>${paymentLogId}</PaymentLogId>
-              <Status>1</Status>
-          </Payment>
-        </Payments>
-      </PaymentNotificationResponse>`;
-      res.header('Content-Type', 'text/xml');
-      return res.send(responseXml);
-    }
-
-    const payment = await Payment.findOne({ paymentLogId: paymentLogId });
-    if(payment){
-      var responseXml = `<PaymentNotificationResponse>
-        <Payments>  
-          <Payment>
-              <PaymentLogId>${paymentLogId}</PaymentLogId>
-              <Status>0</Status>
-          </Payment>
-        </Payments>
-      </PaymentNotificationResponse>`;
-      res.header('Content-Type', 'text/xml');
-      return res.send(responseXml);
-    }
-  
     if(isReversal.toString() == 'True' || isReversal.toString() == 'true'){
+      if(Number(amount) > 0){
+        console.log("wrong ammount")
+        var responseXml = `<PaymentNotificationResponse>
+          <Payments>  
+            <Payment>
+                <PaymentLogId>${paymentLogId}</PaymentLogId>
+                <Status>1</Status>
+            </Payment>
+          </Payments>
+        </PaymentNotificationResponse>`;
+        res.header('Content-Type', 'text/xml');
+        return res.send(responseXml);
+      }
+      
       try{
         var data_object = {
           paymentLogId: paymentLogId.toString(),
@@ -226,6 +212,34 @@ const singleUrl = async (req, res) => {
       } catch(err){
         console.log(err);
       } 
+    }
+
+    console.log("amount: ", Number(amount));
+    if(Number(amount) <= 0){     
+      var responseXml = `<PaymentNotificationResponse>
+        <Payments>  
+          <Payment>
+              <PaymentLogId>${paymentLogId}</PaymentLogId>
+              <Status>1</Status>
+          </Payment>
+        </Payments>
+      </PaymentNotificationResponse>`;
+      res.header('Content-Type', 'text/xml');
+      return res.send(responseXml);
+    }
+
+    const payment = await Payment.findOne({ paymentLogId: paymentLogId });
+    if(payment){
+      var responseXml = `<PaymentNotificationResponse>
+        <Payments>  
+          <Payment>
+              <PaymentLogId>${paymentLogId}</PaymentLogId>
+              <Status>0</Status>
+          </Payment>
+        </Payments>
+      </PaymentNotificationResponse>`;
+      res.header('Content-Type', 'text/xml');
+      return res.send(responseXml);
     }
 
     try{
