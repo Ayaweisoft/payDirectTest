@@ -145,7 +145,6 @@ const singleUrl = async (req, res) => {
       console.log(err);
     }
   } else if(req.body.PaymentNotificationRequest){
-    var isRepeated = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].IsRepeated[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].IsRepeated[0] : '';
     var isReversal = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].IsReversal[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].IsReversal[0] : '';
     var paymentLogId = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].PaymentLogId[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].PaymentLogId[0] : '';
     var paymentReference = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].PaymentReference[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].PaymentReference[0] : '';
@@ -156,7 +155,7 @@ const singleUrl = async (req, res) => {
     var originalPaymentReference = (req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentReference[0]) ? req.body.PaymentNotificationRequest.Payments[0].Payment[0].OriginalPaymentReference[0] : '';
 
     const payment = await Payment.findOne({ paymentLogId: paymentLogId });
-    if((isRepeated.toString() == 'True' || isRepeated.toString() == 'true') || payment){
+    if(payment){
       var responseXml = `<PaymentNotificationResponse>
         <Payments>  
           <Payment>
