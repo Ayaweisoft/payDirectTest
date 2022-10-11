@@ -186,7 +186,6 @@ const singleUrl = async (req, res) => {
       try{
         var data_object = {
           paymentLogId: paymentLogId.toString(),
-          isRepeated: isRepeated.toString(),
           paymentReference: paymentReference.toString(),
           amount: amount.toString(),
           receiptNumber: receiptNumber.toString(), 
@@ -218,7 +217,6 @@ const singleUrl = async (req, res) => {
     try{
       var data_object = {
         paymentLogId: paymentLogId.toString(),
-        isRepeated: isRepeated.toString(),
         paymentReference: paymentReference.toString(),
         amount: amount.toString(),
         receiptNumber: receiptNumber.toString(), 
