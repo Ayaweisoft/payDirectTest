@@ -38,6 +38,7 @@ const singleUrl = async (req, res) => {
         </CustomerInformationResponse>`;
 
         res.header('Content-Type', 'text/xml');
+        console.log('responseXml: ', responseXml);
         return res.send(responseXml);
       }
       if(!customer){
@@ -82,7 +83,7 @@ const singleUrl = async (req, res) => {
               </Customer>
           </Customers>
         </CustomerInformationResponse>`;
-
+        console.log('responseXml: ', responseXml);
         res.header('Content-Type', 'text/xml');
         return res.send(responseXml);
       }
@@ -104,7 +105,7 @@ const singleUrl = async (req, res) => {
               </Customer>
           </Customers>
         </CustomerInformationResponse>`;
-
+      console.log('responseXml: ', responseXml);
       res.header('Content-Type', 'text/xml');
       return res.send(responseXml);
       }
@@ -137,6 +138,7 @@ const singleUrl = async (req, res) => {
         </Customers>
       </CustomerInformationResponse>`;
 
+      console.log('responseXml: ', responseXml);
       res.header('Content-Type', 'text/xml');
       res.send(responseXml);
     } catch(err){
