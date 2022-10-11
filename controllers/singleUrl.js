@@ -18,7 +18,7 @@ const singleUrl = async (req, res) => {
       const customer = await Customers.findOne({ customerReference: custReference });
       console.log(merchantReference[0], " ", custReference, " ", paymentItemCode[0], " ", thirdPartyCode);
       // console.log('status: ', typeof merchantReference., " ", (merchantReference === "6045") ? true : false);
-      if(merchantReference.toString() !== "6405" || merchantReference.toString() !== "6033"){
+      if(merchantReference.toString() !== "6033"){
         var responseXml = `<CustomerInformationResponse>
           <MerchantReference>${merchantReference}</MerchantReference>
           <Customers>
